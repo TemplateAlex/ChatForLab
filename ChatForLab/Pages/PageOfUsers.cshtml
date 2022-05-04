@@ -1,0 +1,33 @@
+﻿@page
+@model ChatForLab.Pages.PageOfUsersModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+@section Styles {
+    <link href="~/css/StyleForPageUsers.css" rel="stylesheet" type="text/css">
+}
+
+
+<div>
+    <ul class="users-list">
+        @foreach(var user in Model.users)
+        {
+        <li>
+            <a class="text-dark" asp-page="Chat" asp-route-nicknameOfUser="@user.Nickname">
+                <div class="info-wrapper mt-2">
+                    <div class="row justify-content-center">
+                        <div class="avatar-user__wrapper col-2 justify-content-end">
+                            <div class="avatar-user"></div>
+                        </div>
+                        <div class="info-user__wrapper col align-self-center">
+                            <p class="info-user">@user.Nickname</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        }
+    </ul>
+</div>
+

@@ -1,0 +1,22 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="wrapper-form">
+    <form method="post">
+        <div class="form-row">
+            <div class="col">
+                <input class="form-control" name="name" placeholder="Your name:">
+            </div>
+            <div class="col">
+                <input class="form-control" name="surname" placeholder="Your surname:">
+            </div>
+            <div class="col">
+                <input class="form-control" name="nickname" placeholder="Your nickname:">
+            </div>
+        </div>
+        <button class="btn btn-primary mt-2" type="submit">Sign in</button>
+    </form>
+</div>

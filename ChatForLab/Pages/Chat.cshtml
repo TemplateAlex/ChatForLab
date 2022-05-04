@@ -1,0 +1,94 @@
+﻿@page "{handler?}"
+@model ChatForLab.Pages.ChatModel
+@using ChatForLab.HtmlHelpers;
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = Model.NicknameOfUser; 
+}
+
+@section Styles {
+    <link href="~/css/StyleForChat.css" rel="stylesheet" type="text/css">
+}
+
+<div class="chat-container container-fluid">
+    <div class="chat-wrapper p-2">
+        <div class="chat-screen p-4">
+            @Html.CreateDialog(Model.Message, HttpContext.Session.GetString("nickname"), Model.NicknameOfUser)
+        </div>
+        <div class="form-wrapper mt-1">
+            <form method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="messageInput" placeholder="Your message:">
+                </div>
+                <button type="submit" class="btn btn-outline-dark">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            setInterval(function () {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '@Url.PageLink("chat", "Ajax", values: new { nicknameOfUser = Model.NicknameOfUser})',
+                    success: function (response) {
+                        $(".chat-screen").empty();
+                        let message = new String(response);
+                        let result = "";
+                        let checker = true;
+                        let index = 0;
+                        let nicknameUser = '@HttpContext.Session.GetString("nickname")';
+                        let nicknameAnothUser = '@Model.NicknameOfUser';
+
+                        result += "<div class='screen-wrapper container-fluid'>"
+
+                        while (checker) {
+                            let indNick = message.indexOf("/" + nicknameUser + "/");
+                            let indAnotUser = message.indexOf("/" + nicknameAnothUser + "/");
+                            checker = false;
+
+                            if ((indNick < indAnotUser && indNick != -1) || (indAnotUser == -1 && indNick != -1)) {
+                                result += "<div class='user__wrapper row justify-content-end'><p>";
+
+                                for (let i = 0; i < indNick; i++) {
+                                    result += message[i];
+                                }
+
+                                result += "</p></div>";
+                                index = indNick + nicknameUser.length + 2;
+                                checker = true;
+                            }
+                            else if ((indAnotUser < indNick && indAnotUser != -1) || (indNick == -1 && indAnotUser != -1)) {
+                                result += "<div class='another-user__wrapper row justify-content-start'><p>";
+
+                                for (let i = 0; i < indAnotUser; i++) {
+                                    result += message[i];
+                                }
+
+                                result += "</p></div>";
+                                index = indAnotUser + nicknameAnothUser.length + 2;
+                                checker = true;
+                            }
+
+                            if (index > message.length) {
+                                checker = false;
+                            }
+                            else {
+                                message = message.substr(index);
+                            }
+
+                        }
+
+                        result += "</div>"
+
+                        $(".chat-screen").append(result);
+                    }
+
+                });
+            }, 1000);
+        });
+    </script>
+}
