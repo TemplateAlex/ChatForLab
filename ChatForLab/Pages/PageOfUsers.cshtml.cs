@@ -11,10 +11,10 @@ namespace ChatForLab.Pages
 {
     public class PageOfUsersModel : PageModel
     {
-        private readonly UserDBContext _context;
+        private readonly ChatDBContext _context;
 
         public List<User> users { get; set; }
-        public PageOfUsersModel(UserDBContext db)
+        public PageOfUsersModel(ChatDBContext db)
         {
             _context = db;
         }
