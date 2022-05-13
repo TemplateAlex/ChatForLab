@@ -14,7 +14,7 @@ namespace ChatForLab.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        private readonly UserDBContext _context;
+        private readonly ChatDBContext _context;
 
         [BindProperty]
         public string Name { get; set; }
@@ -25,7 +25,7 @@ namespace ChatForLab.Pages
         [BindProperty]
         public string Nickname { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, UserDBContext db)
+        public IndexModel(ILogger<IndexModel> logger, ChatDBContext db)
         {
             _logger = logger;
             _context = db;

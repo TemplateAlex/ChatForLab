@@ -27,7 +27,6 @@ namespace ChatForLab
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDbContext<UserDBContext>(ops => ops.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=messenger; Trusted_Connection=True;"));
             services.AddDbContext<ChatDBContext>(ops => ops.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=messenger; Trusted_Connection=True;"));
             services.AddSession();
         }
